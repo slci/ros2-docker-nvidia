@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-docker exec -it ros-humble-dev --user=rosdev /bin/bash
+XSOCK=/tmp/.X11-unix
+
+docker exec -it --user=rosdev ros-humble-dev  bash
