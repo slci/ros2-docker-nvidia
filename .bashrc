@@ -120,4 +120,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+alias srz='source /opt/ros/humble/setup.bash'
+alias srx='source ./install/setup.bash'
+
 source /opt/ros/humble/setup.bash
