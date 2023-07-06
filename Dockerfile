@@ -12,7 +12,7 @@ COPY .git-*.sh /home/rosdev/
 COPY .bashrc /home/rosdev/
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    vim cmake libgl1-mesa-glx libgl1-mesa-dri \
+    vim cmake libgl1-mesa-glx libgl1-mesa-dri iproute2 \
     ros-humble-xacro ros-humble-joint-state-publisher-gui \
     ros-humble-gazebo-ros-pkgs
 
