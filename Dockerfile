@@ -12,7 +12,7 @@ COPY .git-*.sh /home/rosdev/
 COPY .bashrc /home/rosdev/
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    vim cmake git libgl1-mesa-glx libgl1-mesa-dri
+    vim cmake git libgl1-mesa-glx libgl1-mesa-dri python3-catkin-tools
 
 RUN useradd -rm -d /home/rosdev -s /bin/bash -g root -G sudo -u 1001 -p $(perl -e 'print crypt('rosdev', rand(0xffffffff))') rosdev &&\
     chown rosdev /home/rosdev -R
