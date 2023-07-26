@@ -1,4 +1,4 @@
-FROM osrf/ros:humble-desktop
+FROM osrf/ros:iron-desktop-full
 
 ENV TERM xterm-256color
 
@@ -13,8 +13,8 @@ COPY .bashrc /home/rosdev/
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     vim cmake libgl1-mesa-glx libgl1-mesa-dri iproute2 \
-    ros-humble-xacro ros-humble-joint-state-publisher-gui \
-    ros-humble-gazebo-ros-pkgs
+    ros-iron-xacro ros-iron-joint-state-publisher-gui \
+    ros-iron-gazebo-ros-pkgs
 
 RUN useradd -rm -d /home/rosdev -s /bin/bash -g root -G sudo -u 1001 -p $(perl -e 'print crypt('rosdev', rand(0xffffffff))') rosdev &&\
     chown rosdev /home/rosdev -R
