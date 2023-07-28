@@ -14,7 +14,7 @@ COPY .bashrc /home/rosdev/
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     vim cmake libgl1-mesa-glx libgl1-mesa-dri iproute2 \
     ros-iron-xacro ros-iron-joint-state-publisher-gui \
-    ros-iron-gazebo-ros-pkgs
+    ros-iron-gazebo-ros-pkgs python-pip3 meson ninja-build
 
 RUN useradd -rm -d /home/rosdev -s /bin/bash -g root -G sudo -u 1001 -p $(perl -e 'print crypt('rosdev', rand(0xffffffff))') rosdev &&\
     chown rosdev /home/rosdev -R
