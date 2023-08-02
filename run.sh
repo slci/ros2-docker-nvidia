@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+set -o errexit -o pipefail -o noclobber -o nounset
+
+RUN_SHELL=false
+RUN_BUILD=false
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -s|--shell) RUN_SHELL=true ;;
+        -b|--build) RUN_BUILD=true ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
 XSOCK=/tmp/.X11-unix
 XAUTH=/tmp/.docker.xauth
 if [ ! -f $XAUTH ]; then
@@ -13,7 +26,15 @@ fi
 
 if [ -n "$(docker ps -f "name=ros-humble-dev" -f "status=running" -q)" ]; then
     echo "The container is already running"
+    if [ "$RUN_SHELL" = true ]; then
+        docker exec -it --user=rosdev --workdir=/home/rosdev/git/robotics/dev_ws ros-humble-dev  bash
+    else
+        exit 1
+    fi
 else
+    if [ "$RUN_BUILD" = true ]; then
+        docker build -t ros-humble-desktop-nvidia .
+    fi
     xhost +
     docker run -d -i -t --name ros-humble-dev --rm \
         --runtime=nvidia \
@@ -32,3 +53,7 @@ else
 	--mount type=bind,source=/samsung980Pro1TB/synergycar,target=/home/rosdev/git/synergycar \
         ros-humble-desktop-nvidia /bin/bash
 fi
+
+if [ "$RUN_SHELL" = true ]; then
+    docker exec -it --user=rosdev --workdir=/home/rosdev/git/robotics/dev_ws ros-humble-dev  bash
+fi   
