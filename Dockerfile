@@ -16,7 +16,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     ros-iron-xacro ros-iron-joint-state-publisher-gui \
     ros-iron-gazebo-ros-pkgs python3-pip meson ninja-build \
     python3-jinja2 python3-ply python3-yaml python3-mako dosfstools \
-    mtools repo libncurses5 zip unzip
+    mtools repo libncurses5 zip unzip bc fdisk kpartx
 
 RUN useradd -rm -d /home/rosdev -s /bin/bash -g root -G sudo -u 1001 -p $(perl -e 'print crypt('rosdev', rand(0xffffffff))') rosdev &&\
     chown rosdev /home/rosdev -R
