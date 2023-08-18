@@ -26,4 +26,5 @@ WORKDIR /home/rosdev
 
 RUN git config --global user.name "Sławomir Cielepak" &&\
     git config --global user.email slawomir.cielepak@gmail.com &&\
-    git config --global core.editor vim
+    git config --global core.editor vim &&\
+    git config --global credential.helper store
