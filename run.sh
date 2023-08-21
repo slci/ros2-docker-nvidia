@@ -8,10 +8,12 @@ set -o errexit -o pipefail -o noclobber -o nounset
 
 RUN_SHELL=false
 RUN_BUILD=false
+WORK_DIR=/home/rosdev/
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -s|--shell) RUN_SHELL=true ;;
         -b|--build) RUN_BUILD=true ;;
+	-w|--work-dir) WORK_DIR=$2; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
