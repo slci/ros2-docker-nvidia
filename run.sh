@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 SCRIPT_PATH=$(dirname $(realpath ${BASH_SOURCE:-$0}))
 source ${SCRIPT_PATH}/shell.sh
 source ${SCRIPT_PATH}/build.sh
@@ -8,12 +9,14 @@ set -o errexit -o pipefail -o noclobber -o nounset
 
 RUN_SHELL=false
 RUN_BUILD=false
+RUNTIME_CFG=""
 WORK_DIR=/home/rosdev/
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -s|--shell) RUN_SHELL=true ;;
         -b|--build) RUN_BUILD=true ;;
 	-w|--work-dir) WORK_DIR=$2; shift ;;
+	-n|--nvidia-runtime) RUNTIME_CFG="--runtime=nvidia" ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
@@ -43,8 +46,7 @@ else
     fi
     xhost +
     docker run -d -i -t --name ros-humble-dev --rm \
-        --runtime=nvidia \
-        -e DISPLAY=$DISPLAY \
+        $RUNTIME_CFG -e DISPLAY=$DISPLAY \
         -e QT_X11_NO_MITSHM=1 \
         --group-add video \
         --privileged \
@@ -57,7 +59,7 @@ else
         --mount type=bind,source=$HOME/.gitconfig,target=/home/rosdev/.gitconfig \
 	--mount type=bind,source=$HOME/.git-credentials,target=/home/rosdev/.git-credentials \
         --mount type=bind,source=/opt/android-ndk-r25c,target=/opt/android-ndk \
-	--mount type=bind,source=/samsung980Pro1TB/synergycar,target=/home/rosdev/git/synergycar \
+	--mount type=bind,source=/samsung980Pro1TB,target=/samsung980Pro1TB \
         ros-humble-desktop-nvidia /bin/bash
 fi
 
