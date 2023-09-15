@@ -10,6 +10,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 RUN_SHELL=false
 RUN_BUILD=false
 RUNTIME_CFG=""
+MOUNT_DIR=""
 WORK_DIR=/home/rosdev/
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -17,10 +18,15 @@ while [[ "$#" -gt 0 ]]; do
         -b|--build) RUN_BUILD=true ;;
 	-w|--work-dir) WORK_DIR=$2; shift ;;
 	-n|--nvidia-runtime) RUNTIME_CFG="--runtime=nvidia" ;;
+	-m|--mount-dir) MOUNT_DIR=$2; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
 done
+
+if [ ! -z "$MOUNT_DIR" ]; then
+    MOUNT_DIR="--mount type=bind,source=$MOUNT_DIR,target=$MOUNT_DIR"
+fi
 
 XSOCK=/tmp/.X11-unix
 XAUTH=/tmp/.docker.xauth
@@ -59,7 +65,7 @@ else
         --mount type=bind,source=$HOME/.gitconfig,target=/home/rosdev/.gitconfig \
 	--mount type=bind,source=$HOME/.git-credentials,target=/home/rosdev/.git-credentials \
         --mount type=bind,source=/opt/android-ndk-r25c,target=/opt/android-ndk \
-	--mount type=bind,source=/samsung980Pro1TB,target=/samsung980Pro1TB \
+	--mount type=bind,source=/samsung980Pro1TB,target=/samsung980Pro1TB $MOUNT_DIR \
         ros-humble-desktop-nvidia /bin/bash
 fi
 
