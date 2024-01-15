@@ -120,7 +120,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias srz='source /opt/ros/humble/setup.bash'
+export ROS_DISTRO=irona
+alias srz='source /opt/ros/$ROS_DISTRO/setup.bash'
 alias srx='source ./install/setup.bash'
 
-source /opt/ros/iron/setup.bash
+source /opt/ros/$ROS_DISTRO/setup.bash
+
+export CMAKE_EXPORT_COMPILE_COMMANDS=ON
