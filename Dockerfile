@@ -1,4 +1,4 @@
-FROM osrf/ros:iron-desktop-full
+FROM osrf/ros:rolling-desktop-full
 
 ENV TERM xterm-256color
 
@@ -13,10 +13,13 @@ COPY .bashrc /home/rosdev/
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     vim cmake libgl1-mesa-glx libgl1-mesa-dri iproute2 \
-    ros-iron-xacro ros-iron-joint-state-publisher-gui \
-    ros-iron-gazebo-ros-pkgs python3-pip meson ninja-build \
+    ros-rolling-xacro ros-rolling-joint-state-publisher-gui \
+    ros-rolling-gazebo-ros-pkgs python3-pip meson ninja-build \
+    babeltrace ros-rolling-ros2trace ros-rolling-tracetools-analysis \
     python3-jinja2 python3-ply python3-yaml python3-mako dosfstools \
     mtools repo libncurses5 zip unzip bc fdisk kpartx byacc flex
+
+RUN python3 -m pip install -U bokeh selenium pandas
 
 RUN export REPO=$(mktemp /tmp/repo.XXXXXXXXX) && \
     curl -o ${REPO} https://storage.googleapis.com/git-repo-downloads/repo && \
@@ -26,6 +29,7 @@ RUN export REPO=$(mktemp /tmp/repo.XXXXXXXXX) && \
     ln -s /usr/bin/python3 /usr/bin/python
 
 RUN useradd -rm -d /home/rosdev -s /bin/bash -g root -G sudo -u 1001 -p $(perl -e 'print crypt('rosdev', rand(0xffffffff))') rosdev &&\
+    usermod -a -G plugdev rosdev &&\
     chown rosdev /home/rosdev -R
 
 USER rosdev
