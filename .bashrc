@@ -120,7 +120,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export ROS_DISTRO=irona
+export ROS_DISTRO=humble
 alias srz='source /opt/ros/$ROS_DISTRO/setup.bash'
 alias srx='source ./install/setup.bash'
 
