@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
-if [ -n "$(docker ps -f "name=ros-rolling-dev" -f "status=running" -q)" ]; then
-    docker container stop ros-rolling-dev
+function stop_container() {
+    if [ -n "$(podman ps -f "name=rosdev-rolling" -f "status=running" -q)" ]; then
+        podman container stop rosdev-rolling
+    fi
+}
+
+if [ "$0" = "${BASH_SOURCE[0]}" ]; then
+    stop_container $1
 fi

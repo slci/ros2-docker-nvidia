@@ -7,7 +7,7 @@ fi
 
 function run_shell() {
     XSOCK=/tmp/.X11-unix
-    docker exec -it --user=rosdev --workdir=$WORK_DIR ros-rolling-dev  bash
+    podman exec -it --user=rosdev --workdir=$WORK_DIR rosdev-rolling  bash
 }
 
 if [ "$0" = "${BASH_SOURCE[0]}" ]; then

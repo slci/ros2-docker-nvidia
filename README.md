@@ -1,2 +1,2 @@
-# ros2-docker-nvidia
-Scripts for running ros2 docker container with nvidia acceleration
+# ros2-podman-nvidia
+Scripts for running ros2 podman container with nvidia acceleration
