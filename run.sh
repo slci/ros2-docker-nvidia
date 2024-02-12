@@ -47,7 +47,7 @@ if [ ! -f $XAUTH ]; then
     chmod a+r $XAUTH
 fi
 
-if [ -n "$(podman ps -f "name=ros-rolling-dev" -f "status=running" -q)" ]; then
+if [ -n "$(podman ps -f "name=rosdev-rolling" -f "status=running" -q)" ]; then
     echo "The container is already running"
     if [ "$RUN_SHELL" = true ]; then
         run_shell
