@@ -17,7 +17,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     ros-rolling-gazebo-ros-pkgs python3-pip meson ninja-build \
     babeltrace ros-rolling-ros2trace ros-rolling-tracetools-analysis \
     python3-jinja2 python3-ply python3-yaml python3-mako dosfstools \
-    mtools repo libncurses5 zip unzip bc fdisk kpartx byacc flex
+    mtools repo libncurses5 zip unzip bc fdisk kpartx byacc flex \
+    ros-rolling-tracetools* babeltrace2 lttng-tools liblttng-ust-dev lttng-modules-dkms
 
 RUN python3 -m pip install -U bokeh selenium pandas
 
