@@ -55,9 +55,12 @@ if [ -n "$(podman ps -f "name=rosdev-rolling" -f "status=running" -q)" ]; then
         exit 1
     fi
 else
+    echo "The container is not running"
+
     if [ "$RUN_BUILD" = true ]; then
         build_img
     fi
+
     xhost +
     podman run -d -i -t --rm $RUNTIME_CFG --name rosdev-rolling \
         -e DISPLAY=$DISPLAY \
