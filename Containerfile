@@ -15,9 +15,11 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     vim cmake libgl1-mesa-glx libgl1-mesa-dri iproute2 \
     ros-humble-xacro ros-humble-joint-state-publisher-gui \
     ros-humble-gazebo-ros-pkgs python3-pip meson ninja-build \
-    babeltrace ros-humble-ros2trace ros-humble-tracetools-analysis \
+    ros-humble-ros2trace ros-humble-tracetools-analysis \
     python3-jinja2 python3-ply python3-yaml python3-mako dosfstools \
-    mtools repo libncurses5 zip unzip bc fdisk kpartx byacc flex
+    mtools repo libncurses5 zip unzip bc fdisk kpartx byacc flex \
+    ros-humble-tracetools* babeltrace2 lttng-tools liblttng-ust-dev \
+    lttng-modules-dkms liblttng-ctl-dev
 
 RUN python3 -m pip install -U bokeh selenium pandas
 

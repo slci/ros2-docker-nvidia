@@ -19,7 +19,7 @@ while [[ "$#" -gt 0 ]]; do
         WORK_DIR=$2
         shift
         ;;
-    -n | --nvidia-runtime) RUNTIME_CFG="--runtime=nvidia" ;;
+    -n | --nvidia-runtime) RUNTIME_CFG="--device nvidia.com/gpu=all" ;;
     -m | --mount-dir)
         MOUNT_DIR=$2
         shift
@@ -37,7 +37,7 @@ if [ ! -z "$MOUNT_DIR" ]; then
 fi
 
 XSOCK=/tmp/.X11-unix
-XAUTH=/tmp/.docker.xauth
+XAUTH=/tmp/.podman.xauth
 if [ ! -f $XAUTH ]; then
     touch $XAUTH
     xauth_list=$(xauth nlist :0 | sed -e 's/^..../ffff/')
@@ -47,7 +47,7 @@ if [ ! -f $XAUTH ]; then
     chmod a+r $XAUTH
 fi
 
-if [ -n "$(docker ps -f "name=ros-humble-dev" -f "status=running" -q)" ]; then
+if [ -n "$(podman ps -f "name=rosdev-humble" -f "status=running" -q)" ]; then
     echo "The container is already running"
     if [ "$RUN_SHELL" = true ]; then
         run_shell
@@ -55,14 +55,18 @@ if [ -n "$(docker ps -f "name=ros-humble-dev" -f "status=running" -q)" ]; then
         exit 1
     fi
 else
+    echo "The container is not running"
+
     if [ "$RUN_BUILD" = true ]; then
-        docker build -t ros-humble-desktop-nvidia .
+        build_img
     fi
+
     xhost +
-    docker run -d -i -t --name ros-humble-dev --rm \
-        $RUNTIME_CFG -e DISPLAY=$DISPLAY \
+    podman run -d -i -t --rm $RUNTIME_CFG --name rosdev-humble \
+        -e DISPLAY=$DISPLAY \
         -e QT_X11_NO_MITSHM=1 \
         --group-add video \
+        --security-opt=label=disable \
         --privileged \
         --net=host \
         --mount type=bind,source=$XSOCK,target=$XSOCK \
