@@ -19,19 +19,16 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     python3-jinja2 python3-ply python3-yaml python3-mako dosfstools \
     mtools repo libncurses5 zip unzip bc fdisk kpartx byacc flex \
     ros-humble-tracetools* babeltrace2 lttng-tools liblttng-ust-dev \
-    lttng-modules-dkms liblttng-ctl-dev
+    lttng-modules-dkms liblttng-ctl-dev libcv-bridge-dev ros-humble-image-transport \
+    ros-humble-diagnostic-updater ros-humble-librealsense2 \
+    ros-humble-realsense2-camera ros-humble-realsense2-camera-msgs \
+    ros-humble-realsense2-description
 
 RUN python3 -m pip install -U bokeh selenium pandas
 
-RUN export REPO=$(mktemp /tmp/repo.XXXXXXXXX) && \
-    curl -o ${REPO} https://storage.googleapis.com/git-repo-downloads/repo && \
-    gpg --recv-keys 8BB9AD793E8E6153AF0F9A4416530D5E920F5C65 && \
-    curl -s https://storage.googleapis.com/git-repo-downloads/repo.asc \
-    | gpg --verify - ${REPO} && install -m 755 ${REPO} /usr/bin/repo && \
-    ln -s /usr/bin/python3 /usr/bin/python
-
 RUN useradd -rm -d /home/rosdev -s /bin/bash -g root -G sudo -u 1001 -p $(perl -e 'print crypt('rosdev', rand(0xffffffff))') rosdev &&\
     usermod -a -G plugdev rosdev &&\
+    usermod -a -G video rosdev &&\
     chown rosdev /home/rosdev -R
 
 USER rosdev

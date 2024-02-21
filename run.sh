@@ -66,6 +66,7 @@ else
         -e DISPLAY=$DISPLAY \
         -e QT_X11_NO_MITSHM=1 \
         --group-add video \
+        --group-add plugdev \
         --security-opt=label=disable \
         --privileged \
         --net=host \
@@ -75,9 +76,7 @@ else
         --mount type=bind,source=$HOME/git,target=/home/rosdev/git \
         --mount type=bind,source=$HOME/.ssh,target=/home/rosdev/.ssh \
         --mount type=bind,source=$HOME/.gitconfig,target=/home/rosdev/.gitconfig \
-        --mount type=bind,source=$HOME/.git-credentials,target=/home/rosdev/.git-credentials \
-        --mount type=bind,source=/opt/android-ndk-r25c,target=/opt/android-ndk \
-        --mount type=bind,source=/samsung980Pro1TB,target=/samsung980Pro1TB $MOUNT_DIR \
+        --mount type=bind,source=$HOME/.git-credentials,target=/home/rosdev/.git-credentials $MOUNT_DIR \
         ros-humble-desktop-nvidia /bin/bash
 fi
 
